@@ -10,8 +10,17 @@ import Kingfisher
 
 struct CardView: View {
     
-    @EnvironmentObject var viewModel: UserViewModel
+    //@EnvironmentObject var viewModel: UserViewModel
+    
+    @ObservedObject var viewModel = UserViewModel()
 
+
+
+    init() {
+        //viewModel.fetchUsers()
+        //viewModel.fetchCurrentUser()
+        viewModel.fetchCurrentUser()
+    }
     
     var body: some View {
         

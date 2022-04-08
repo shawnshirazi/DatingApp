@@ -1,26 +1,28 @@
 //
-//  SwipeDetailView.swift
+//  likedDetailview.swift
 //  Dating2
 //
-//  Created by Shawn Shirazi on 11/28/21.
+//  Created by Shawn Shirazi on 12/14/21.
 //
 
 import SwiftUI
 import Kingfisher
 
-struct SwipeDetailView: View {
+struct likedDetailview: View {
     
     var name = "Shawn"
     var age = "22"
     var image = "https://picsum.photos/400"
     
     var body: some View {
-        ZStack {
-
+        HStack {
+            
             KFImage(URL(string: image))
                 .resizable()
                 .cornerRadius(20)
                 .padding()
+                .frame(width: 100, height: 100)
+            
             
             VStack(alignment: .leading) {
                 
@@ -38,7 +40,7 @@ struct SwipeDetailView: View {
                             
                             Text(age)
                         }
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         
                         Spacer()
 
@@ -52,8 +54,9 @@ struct SwipeDetailView: View {
     }
 }
 
-struct SwipeDetailView_Previews: PreviewProvider {
+
+struct likedDetailview_Previews: PreviewProvider {
     static var previews: some View {
-        SwipeDetailView()
+        likedDetailview()
     }
 }

@@ -11,19 +11,45 @@ struct ContentView: View {
     
     @State var status = UserDefaults.standard.value(forKey: "status") as? Bool ?? false
     //@EnvironmentObject var viewModel: AuthViewModel
+    //@ObservedObject var viewModel = UserViewModel()
     @StateObject var viewModel = UserViewModel()
+    @StateObject var viewModelLiked = likedUserViewModel()
+    @StateObject var viewModelLikedMe = LikedMeUserViewModel()
+    @StateObject var viewModelMatch = MatchViewModel()
+    @StateObject var viewModelChat = ChatViewModel()
+
+    //@StateObject var otherViewModel = OtherUsersViewModel()
+
 
 
     var body: some View {
         
         VStack {
             if status {
+                NavigationView {
                     TabView {
+                        
                         FullCardView()
                             .tabItem {
                                 Label("", systemImage: "list.dash")
                             }
+                            //.onAppear { viewModel.getOtherUsers() }
 
+                        /*
+                        LikedView()
+                            .tabItem {
+                                Label("Likes", systemImage: "list.dash")
+                            }*/
+                        
+                        LikedMeView()
+                            .tabItem {
+                                Label("Liked Me", systemImage: "list.dash")
+                            }
+                        
+                        ConversationsView()
+                            .tabItem {
+                                Label("Matches", systemImage: "list.dash")
+                            }
                         
                         ProfileView()
                             .tabItem {
@@ -32,10 +58,13 @@ struct ContentView: View {
                         
                     }
                     .environmentObject(viewModel)
-                    .onAppear {
-                        viewModel.fetchUsers()
-                    }
+                    .environmentObject(viewModelLiked)
+                    .environmentObject(viewModelLikedMe)
+                    .environmentObject(viewModelMatch)
+                    .environmentObject(viewModelChat)
                     
+                    //.onAppear { otherViewModel.getOtherUsers() }
+                }
             } else {
                 NavigationView {
                     PhoneAuthView()

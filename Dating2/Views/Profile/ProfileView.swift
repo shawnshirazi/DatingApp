@@ -10,11 +10,27 @@ import Firebase
 
 struct ProfileView: View {
     
-    @ObservedObject var viewModel = UserViewModel()
+    @EnvironmentObject var viewModel: UserViewModel
+    @State var didAppear = false
+    @State var appearCount = 0
+    
+    @ObservedObject var viewModel2 = CurrentUserViewModel()
+
+    
+    func onLoad() {
+        if !didAppear {
+            //appearCount += 1
+            viewModel.fetchCurrentUser()
+        }
+        didAppear = true
+    }
+    
+    init() {
+        viewModel2.fetchCurrentUser()
+    }
     
     var body: some View {
         
-        NavigationView {
             ScrollView(showsIndicators: false) {
                 VStack {
                     
@@ -47,9 +63,9 @@ struct ProfileView: View {
                     
                     
                 }
-                .navigationBarHidden(true)
             }
-        }
+            .navigationBarHidden(true)
+
     }
 }
 

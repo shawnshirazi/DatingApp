@@ -12,8 +12,16 @@ import Firebase
 struct userHeaderView: View {
     
     @State private var isPresented = false
-    @EnvironmentObject var viewModel: UserViewModel
+    @ObservedObject var viewModel = UserViewModel()
+    //@ObservedObject var viewModel2 = CurrentUserViewModel()
 
+
+
+    init() {
+        //viewModel.fetchUsers()
+        //viewModel.fetchCurrentUser()
+        viewModel.fetchCurrentUser()
+    }
 
     var body: some View {
             VStack {
@@ -57,10 +65,6 @@ struct userHeaderView: View {
                 
                 
             }
-            .onAppear {
-                viewModel.fetchUsers()
-            }
-
     }
 }
 

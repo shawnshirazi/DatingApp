@@ -9,12 +9,13 @@ import SwiftUI
 
 struct AboutUserView: View {
     
-    @StateObject var viewModel = UploadUserInfoViewModel()
+    @StateObject var viewModelUpload = UploadUserInfoViewModel()
     @State var name = ""
     @State var gender = ""
     @State var SO = ""
     @State var age = ""
     @Binding var show2: Bool
+   // @Binding var push: Bool
 
     var body: some View {
         
@@ -42,7 +43,7 @@ struct AboutUserView: View {
                     
                     //NavigationLink(destination: FullCardView()) {
                         Button (action: {
-                            viewModel.uploadInfo(name: name, gender: gender, SO: SO, age: age);
+                            viewModelUpload.uploadInfo(name: name, gender: gender, SO: SO, age: age);
                             
                             UserDefaults.standard.set(true, forKey: "status")
                             
@@ -61,9 +62,11 @@ struct AboutUserView: View {
     }
 }
 
+
 struct AboutUserView_Previews: PreviewProvider {
     static var previews: some View {
         AboutUserView(show2: .constant(true))
+            .environmentObject(UploadUserInfoViewModel())
     }
 }
 

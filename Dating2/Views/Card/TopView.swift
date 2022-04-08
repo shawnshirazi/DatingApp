@@ -33,6 +33,7 @@ struct TopView: View {
                     
                 }, label: {
                     Text("LOGO")
+                    //Text("catch")
                         .font(.title)
                 })
                 .foregroundColor(.red)
@@ -48,7 +49,7 @@ struct TopView: View {
 
                 
             }
-            .padding()
+            .padding(.horizontal)
     }
     
 }

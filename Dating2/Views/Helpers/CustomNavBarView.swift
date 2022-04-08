@@ -13,6 +13,7 @@ struct CustomNavBarView: View {
     @Binding var selected: Int
     @State private var showingDetail = false
     //@State var viewModel = UserViewModel()
+    @EnvironmentObject var viewModel: UserViewModel
 
     
     var body: some View {

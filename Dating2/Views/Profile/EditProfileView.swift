@@ -15,8 +15,14 @@ struct EditProfileView: View {
     @State var selected = 0
     @Environment(\.presentationMode) var presentation
     @State var imageSelected = UIImage()
+    @ObservedObject var viewModel2 = CurrentUserViewModel()
 
-
+    
+    init() {
+        //viewModel.fetchUsers()
+        //viewModel.fetchCurrentUser()
+        viewModel2.fetchCurrentUser()
+    }
     
     var body: some View {
         

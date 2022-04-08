@@ -11,7 +11,10 @@ import Kingfisher
 struct ImageGridView: View {
 
     @StateObject var viewModel2 = UploadUserInfoViewModel()
-    @EnvironmentObject var viewModel: UserViewModel
+    //@EnvironmentObject var viewModel: UserViewModel
+    @ObservedObject var viewModel3 = CurrentUserViewModel()
+    @ObservedObject var viewModel = UserViewModel()
+
 
     @State var showImagePicker = false
     @State var showImagePicker2 = false
@@ -33,6 +36,13 @@ struct ImageGridView: View {
     @State var image4: Image?
     @State var image5: Image?
     @State var image6: Image?
+    
+    @State var didAppear = false
+    @State var appearCount = 0
+    
+    init() {
+        viewModel.fetchCurrentUser()
+    }
     
     func loadImage() {
         guard let selectedImage = selectedUIImage else { return }
@@ -260,6 +270,7 @@ struct ImageGridView: View {
             }
             .padding(.horizontal, 5)
             .padding(.vertical)
+
     }
 }
 

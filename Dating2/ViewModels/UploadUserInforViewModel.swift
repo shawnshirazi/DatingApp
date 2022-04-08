@@ -7,30 +7,51 @@
 
 import SwiftUI
 import Firebase
+import FirebaseDatabase
+import FirebaseFirestore
 
 class UploadUserInfoViewModel: ObservableObject {
     
+    @Published var userSession: FirebaseAuth.User?
+
         
     func uploadInfo(name: String, gender: String, SO: String, age: String) {
         
         guard let user = Auth.auth().currentUser else { return }
-    
+        let ref = Database.database().reference()
+        
         let data: [String: Any] = ["name": name,
                                    "gender": gender,
                                    "SO": SO,
                                    "age": age,
                                    "uid": user.uid]
-                
+        
+        ref.child("users").child(user.uid).updateChildValues(data)
+        
+        /*
         Firestore.firestore().collection("users").document(user.uid).setData(data) { _ in
             print("DEBUG: uploaded user data")
-        }
+        }*/
                 
     }
+    
+    func uploadNumber(number: String) {
+        
+        guard let user = Auth.auth().currentUser else { return }
+        let ref = Database.database().reference()
+        
+        let data: [String: Any] = ["phone-number": number]
+        
+        ref.child("users").child(user.uid).setValue(data)
+    }
+    
     
     func uploadImage(image: UIImage) {
         
         guard let user = Auth.auth().currentUser else { return }
+        let ref = Database.database().reference()
 
+        
         guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
         let filename = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child(filename)
@@ -46,9 +67,11 @@ class UploadUserInfoViewModel: ObservableObject {
                 
                 let data = ["ImageUrl": imageUrl]
 
+                ref.child("users").child(user.uid).updateChildValues(data)
+                /*
                 Firestore.firestore().collection("users").document(user.uid).updateData(data) { _ in
                     print("DEBUG: uploaded user image")
-                }
+                }*/
             }
                         
         }
@@ -58,7 +81,9 @@ class UploadUserInfoViewModel: ObservableObject {
     func uploadImage2(image: UIImage) {
         
         guard let user = Auth.auth().currentUser else { return }
+        let ref = Database.database().reference()
 
+        
         guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
         let filename = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child(filename)
@@ -74,9 +99,11 @@ class UploadUserInfoViewModel: ObservableObject {
                 
                 let data = ["ImageUrl2": imageUrl]
 
+                ref.child("users").child(user.uid).updateChildValues(data)
+                /*
                 Firestore.firestore().collection("users").document(user.uid).updateData(data) { _ in
                     print("DEBUG: uploaded user image")
-                }
+                }*/
             }
                         
         }
@@ -85,7 +112,9 @@ class UploadUserInfoViewModel: ObservableObject {
     func uploadImage3(image: UIImage) {
         
         guard let user = Auth.auth().currentUser else { return }
+        let ref = Database.database().reference()
 
+        
         guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
         let filename = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child(filename)
@@ -101,9 +130,11 @@ class UploadUserInfoViewModel: ObservableObject {
                 
                 let data = ["ImageUrl3": imageUrl]
 
+                ref.child("users").child(user.uid).updateChildValues(data)
+                /*
                 Firestore.firestore().collection("users").document(user.uid).updateData(data) { _ in
                     print("DEBUG: uploaded user image")
-                }
+                }*/
             }
                         
         }
@@ -112,7 +143,9 @@ class UploadUserInfoViewModel: ObservableObject {
     func uploadImage4(image: UIImage) {
         
         guard let user = Auth.auth().currentUser else { return }
+        let ref = Database.database().reference()
 
+        
         guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
         let filename = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child(filename)
@@ -128,9 +161,11 @@ class UploadUserInfoViewModel: ObservableObject {
                 
                 let data = ["ImageUrl4": imageUrl]
 
+                ref.child("users").child(user.uid).updateChildValues(data)
+                /*
                 Firestore.firestore().collection("users").document(user.uid).updateData(data) { _ in
                     print("DEBUG: uploaded user image")
-                }
+                }*/
             }
                         
         }
@@ -139,7 +174,9 @@ class UploadUserInfoViewModel: ObservableObject {
     func uploadImage5(image: UIImage) {
         
         guard let user = Auth.auth().currentUser else { return }
+        let ref = Database.database().reference()
 
+        
         guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
         let filename = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child(filename)
@@ -155,9 +192,11 @@ class UploadUserInfoViewModel: ObservableObject {
                 
                 let data = ["ImageUrl5": imageUrl]
 
+                ref.child("users").child(user.uid).updateChildValues(data)
+                /*
                 Firestore.firestore().collection("users").document(user.uid).updateData(data) { _ in
                     print("DEBUG: uploaded user image")
-                }
+                }*/
             }
                         
         }
@@ -166,7 +205,9 @@ class UploadUserInfoViewModel: ObservableObject {
     func uploadImage6(image: UIImage) {
         
         guard let user = Auth.auth().currentUser else { return }
+        let ref = Database.database().reference()
 
+        
         guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
         let filename = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child(filename)
@@ -182,9 +223,11 @@ class UploadUserInfoViewModel: ObservableObject {
                 
                 let data = ["ImageUrl6": imageUrl]
 
+                ref.child("users").child(user.uid).updateChildValues(data)
+                /*
                 Firestore.firestore().collection("users").document(user.uid).updateData(data) { _ in
                     print("DEBUG: uploaded user image")
-                }
+                }*/
             }
                         
         }

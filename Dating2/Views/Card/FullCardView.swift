@@ -10,11 +10,9 @@ import SwiftUI
 struct FullCardView: View {
     
     @EnvironmentObject var viewModel: UserViewModel
-    
+
     var body: some View {
-        
-        NavigationView {
-                        
+                                
             ZStack {
                 
                 if viewModel.users.isEmpty {
@@ -24,17 +22,30 @@ struct FullCardView: View {
                 VStack {
                     TopView()
                     
+                    //SwipeView()
+                    //DiscoverView()
+                    DiscoView2()
+                    
+                }
+                
+                /*
+                VStack {
+                    //TopView()
+                    
                     SwipeView()
+                        .environmentObject(viewModel)
                     
                     //CardView()
                     
                     //Spacer()
                     
-                    BottomView()
+                    //BottomView()
                 }
                 .navigationBarHidden(true)
+                */
             }
-        }
+            .navigationBarHidden(true)
+
 
         
     }

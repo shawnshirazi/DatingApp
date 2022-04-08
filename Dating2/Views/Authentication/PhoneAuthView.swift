@@ -51,7 +51,7 @@ struct PhoneAuthView: View {
                 .padding(.top, 15)
                 .padding(.horizontal, 15)
                 
-                NavigationLink(destination: PhoneVerifyView(show: $show, ID: $ID), isActive: $show) {
+                NavigationLink(destination: PhoneVerifyView(show: $show, ID: $ID, no: $no), isActive: $show) {
                     
                     Button(action: {
                         

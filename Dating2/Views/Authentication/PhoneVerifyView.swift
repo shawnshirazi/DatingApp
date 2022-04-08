@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Firebase
+import FirebaseDatabase
+import FirebaseFirestore
 
 struct PhoneVerifyView: View {
     
@@ -17,7 +19,18 @@ struct PhoneVerifyView: View {
     @State var alert = false
     @State var show2 = false
     @EnvironmentObject var viewModel: UserViewModel
-
+    @StateObject var viewModelUpload = UploadUserInfoViewModel()
+    let userSession = Auth.auth().currentUser
+    @Binding var no: String
+    
+    func handleSuccessfullLogin() {
+        self.show2 = true
+        print("DEBUG: handleSuccessfullLogin")
+    }
+    
+    func fetchView() -> some View {
+        AboutUserView(show2: $show2)
+   }
     
     var body: some View {
         
@@ -27,10 +40,15 @@ struct PhoneVerifyView: View {
                     
                     VStack(spacing: 10) {
                         
-                        Text("Verification Code")
-                            .font(.largeTitle)
-                            .fontWeight(.heavy)
-                        
+                        VStack {
+                            Text("Verification Code For" )
+                                .font(.title3)
+                                .fontWeight(.heavy)
+                            
+                            Text("\(no)")
+                                .font(.title3)
+                                .fontWeight(.heavy)
+                        }
                         
                         Text("Please Enter The Verification Code")
                             .font(.body)
@@ -44,12 +62,12 @@ struct PhoneVerifyView: View {
                             .background(Color("Color"))
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding(.top, 15)
+
                         
                         NavigationLink(destination: AboutUserView(show2: $show2), isActive: $show2) {
                             Button(action: {
-                                
                                 let credential = PhoneAuthProvider.provider().credential(withVerificationID: self.ID, verificationCode: self.code)
-                                
+
                                 Auth.auth().signIn(with: credential) { (res, err) in
                                     
                                     if err != nil {
@@ -58,23 +76,28 @@ struct PhoneVerifyView: View {
                                         self.alert.toggle()
                                         return
                                         
-                                    }
-                                    
-                                    self.show2.toggle()
-
-                                    //guard let uid = Auth.auth().currentUser?.uid else { return }
-
-                                    /*
-                                    if (Auth.auth().currentUser?.uid == COLLECTION_USERS.collectionID) {
-                                        
-                                        UserDefaults.standard.set(true, forKey: "status")
-                                        
-                                        NotificationCenter.default.post(name: NSNotification.Name("statusChange"), object: nil)
-                                        
                                     } else {
-                                        self.show2.toggle()
+                                        Auth.auth().currentUser?.reload()
+                                        guard let uid = userSession?.uid else { return }
+                                        let ref = Database.database().reference()
+                                        
+                                        ref.child("users").queryOrdered(byChild: "phone-number").queryEqual(toValue: no).observeSingleEvent(of: .value, with: { snapshot in
+                                            print("DEBUG SS : \(snapshot.value)")
+                                            if (snapshot.value is NSNull) {
+                                                viewModelUpload.uploadNumber(number: no)
+                                                //AboutUserView(show2: $show2)
+                                                self.show2.toggle()
+                                               // fetchView()
+
+                                            } else {
+                                                UserDefaults.standard.set(true, forKey: "status")
+                                                NotificationCenter.default.post(name: NSNotification.Name("statusChange"), object: nil)
+                                            }
+                                            
+                                            //UserDefaults.standard.set(true, forKey: "status")
+                                            //NotificationCenter.default.post(name: NSNotification.Name("statusChange"), object: nil)
+                                        })
                                     }
-                                   */
                                 }
                                 
                             }, label: {
@@ -88,9 +111,42 @@ struct PhoneVerifyView: View {
                             .navigationBarHidden(true)
                             .navigationBarBackButtonHidden(true)
                         }
+                        
+                        //}
+                        
+                        /*else {
+                            NavigationLink(destination: AboutUserView(show2: $show2), isActive: $show2) {
+                                Button(action: {
+                                    
+                                    let credential = PhoneAuthProvider.provider().credential(withVerificationID: self.ID, verificationCode: self.code)
+                                    
+                                    Auth.auth().signIn(with: credential) { (res, err) in
+                                        
+                                        if err != nil {
+                                            
+                                            self.message = (err?.localizedDescription)!
+                                            self.alert.toggle()
+                                            return
+                                            
+                                        }
+                                        
+                                        self.show2.toggle()
+                                    }
+                                    
+                                }, label: {
+                                    Text("Verify")
+                                        .frame(width: UIScreen.main.bounds.width - 30, height: 50)
+                                })
+                                .foregroundColor(.white)
+                                .background(Color.orange)
+                                .cornerRadius(10)
+                                .navigationBarTitle("")
+                                .navigationBarHidden(true)
+                                .navigationBarBackButtonHidden(true)
+                            }
 
-                    
-                    
+                            
+                    }*/
                 }
                 
                 Button(action: {
@@ -113,8 +169,9 @@ struct PhoneVerifyView: View {
     }
 }
 
+/*
 struct PhoneVerifyView_Previews: PreviewProvider {
     static var previews: some View {
-        PhoneVerifyView(show: .constant(true), ID: .constant(""))
+        PhoneVerifyView(show: .constant(true), ID: .constant(""), no: Binding<String>)
     }
-}
+}*/
